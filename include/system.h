@@ -20,7 +20,7 @@ class System {
   long UpTime();                      // TODO: See src/system.cpp
   int TotalProcesses();               // TODO: See src/system.cpp
   int RunningProcesses();             // TODO: See src/system.cpp
-  std::string Kernel();               // TODO: See src/system.cpp
+  std::string Kernel() const;               // TODO: See src/system.cpp
   std::string OperatingSystem() const;      // TODO: See src/system.cpp
 
   // TODO: Define any necessary private members
@@ -29,6 +29,7 @@ class System {
   std::vector<Process> processes_ = {};  
   std::string operating_system {UNDEFINED};
   std::string kernel {UNDEFINED};
+  std::vector<int> process_ids = {};
 };
 
 #endif

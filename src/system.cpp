@@ -28,7 +28,7 @@ Processor& System::Cpu() { return cpu_; }
 vector<Process>& System::Processes() { return processes_; }
 
 // TODO: Return the system's kernel identifier (string)
-std::string System::Kernel() { 
+std::string System::Kernel() const { 
     return kernel;
 }
 
@@ -41,7 +41,10 @@ std::string System::OperatingSystem() const {
 }
 
 // TODO: Return the number of processes actively running on the system
-int System::RunningProcesses() { return 0; }
+int System::RunningProcesses() { 
+    process_ids = LinuxParser::Pids();
+    return process_ids.size();    
+}
 
 // TODO: Return the total number of processes on the system
 int System::TotalProcesses() { return 0; }
