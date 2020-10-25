@@ -50,15 +50,31 @@ string LinuxParser::Kernel() {
 // BONUS: Update this to use std::filesystem
 vector<int> LinuxParser::Pids() {
   vector<int> pids;
-  for (auto &p : std::filesystem::directory_iterator(kProcDirectory)) {
-    const auto file_name = p.path().filename().string();
-    if(p.is_directory()) {
-      if(std::all_of(file_name.begin(), file_name.end(), isdigit)) {
-        int pid = stoi(file_name);
+  // This code here would work if Udacity systems were up-to-date have to use
+  // the old code below until then,
+  // for (auto &p : std::filesystem::directory_iterator(kProcDirectory)) {
+  //   const auto file_name = p.path().filename().string();
+  //   if(p.is_directory()) {
+  //     if(std::all_of(file_name.begin(), file_name.end(), isdigit)) {
+  //       int pid = stoi(file_name);
+  //       pids.push_back(pid);
+  //     }
+  //   }
+  // }
+  DIR* directory = opendir(kProcDirectory.c_str());
+  struct dirent* file;
+  while ((file = readdir(directory)) != nullptr) {
+    // Is this a directory?
+    if (file->d_type == DT_DIR) {
+      // Is every character of the name a digit?
+      string filename(file->d_name);
+      if (std::all_of(filename.begin(), filename.end(), isdigit)) {
+        int pid = stoi(filename);
         pids.push_back(pid);
       }
     }
   }
+  closedir(directory);
   return pids;
 }
 
