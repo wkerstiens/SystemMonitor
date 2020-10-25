@@ -29,7 +29,6 @@ class System {
   std::vector<Process> processes_ = {};  
   std::string operating_system {UNDEFINED};
   std::string kernel {UNDEFINED};
-  std::vector<int> process_ids = {};
 };
 
 #endif

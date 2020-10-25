@@ -42,12 +42,16 @@ std::string System::OperatingSystem() const {
 
 // TODO: Return the number of processes actively running on the system
 int System::RunningProcesses() { 
-    process_ids = LinuxParser::Pids();
-    return process_ids.size();    
+    // stat file contains this information
+    return 0;   
 }
 
 // TODO: Return the total number of processes on the system
-int System::TotalProcesses() { return 0; }
+int System::TotalProcesses() { 
+    return LinuxParser::TotalProcesses();  
+}
 
 // TODO: Return the number of seconds since the system started running
-long int System::UpTime() { return 0; }
+long int System::UpTime() { 
+    return LinuxParser::UpTime();
+ }
