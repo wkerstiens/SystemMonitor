@@ -17,7 +17,8 @@ float Processor::Utilization() {
       case 1:  // nice
       case 2:  // system
         active_jiffies += converted_value;
-        // No break here is intentional
+        total_jiffies += converted_value;
+        break;
       default:
         total_jiffies += converted_value;
         break;
