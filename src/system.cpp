@@ -36,8 +36,8 @@ vector<Process>& System::Processes() {
                     LinuxParser::UpTime(pid));
     processes_.push_back(process);
   }
-   std::sort(processes_.begin(), processes_.end(),
-             [](const Process& a, const Process& b) { return a > b; });
+  std::sort(processes_.begin(), processes_.end(),
+            [](const Process& a, const Process& b) { return a > b; });
   return processes_;
 }
 

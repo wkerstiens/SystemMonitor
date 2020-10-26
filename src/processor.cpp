@@ -10,13 +10,14 @@ float Processor::Utilization() {
   std::vector<std::string> stats = LinuxParser::CpuUtilization();
   float total_jiffies = 0;
   float active_jiffies = 0;
-  for (int index = 0; index < stats.size(); index++) {
+  for (unsigned long index = 0; index < stats.size(); index++) {
     float converted_value = std::stof(stats[index]);
     switch (index) {
       case 0:  // user
       case 1:  // nice
       case 2:  // system
         active_jiffies += converted_value;
+        // No break here is intentional
       default:
         total_jiffies += converted_value;
         break;
