@@ -20,3 +20,9 @@ string Format::ElapsedTime(long seconds) {
          << std::setfill('0') << std::setw(2) << real_seconds;
   return output.str();
 }
+
+string Format::CleanNumber(int number) {
+  std::ostringstream output;
+  output << number << std::setw(10) << std::setfill(' ') << ' ';
+  return output.str();
+}

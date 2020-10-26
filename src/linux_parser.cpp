@@ -88,8 +88,8 @@ float LinuxParser::MemoryUtilization() {
   string line;
   std::ifstream stream(kProcDirectory + kMeminfoFilename);
   if (stream.is_open()) {
-    while (std::getline(stream, line) && (memory_total == 0 ||
-           memory_free == 0)) {
+    while (std::getline(stream, line) &&
+           (memory_total == 0 || memory_free == 0)) {
       std::istringstream linestream(line);
       linestream >> start_of_line;
       if (start_of_line == "MemTotal:") {
@@ -139,13 +139,54 @@ long LinuxParser::Jiffies() {
 long LinuxParser::ActiveJiffies(int pid [[maybe_unused]]) { return 0; }
 
 // TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
+long LinuxParser::ActiveJiffies() {
+  string cpu;
+  long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
+  long jiffies = 0;
+  string line;
+  std::ifstream stream(kProcDirectory + kStatFilename);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    linestream >> cpu >> user >> nice >> system >> idle >> iowait >> irq >>
+        softirq >> steal >> guest >> guest_nice;
+  }
+  return user + nice + system + iowait + irq + softirq + steal + guest +
+         guest_nice;
+}
 
 // TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
+long LinuxParser::IdleJiffies() {
+  string cpu;
+  long user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice;
+  long jiffies = 0;
+  string line;
+  std::ifstream stream(kProcDirectory + kStatFilename);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    linestream >> cpu >> user >> nice >> system >> idle >> iowait >> irq >>
+        softirq >> steal >> guest >> guest_nice;
+  }
+  return idle;
+}
 
 // TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+vector<string> LinuxParser::CpuUtilization() { 
+  string data;
+  vector<string> cpu_stats{};
+  string line;
+  std::ifstream stream(kProcDirectory + kStatFilename);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    while(linestream >> data) {
+      cpu_stats.push_back(data);
+    }
+    cpu_stats.erase(cpu_stats.begin());
+  } 
+  return cpu_stats;
+}
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() {
