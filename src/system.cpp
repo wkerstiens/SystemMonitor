@@ -11,10 +11,7 @@
 #include "process.h"
 #include "processor.h"
 
-using std::set;
-using std::size_t;
-using std::string;
-using std::vector;
+using namespace std;
 
 System::System() {
   // Going to set variables that shoud not change
@@ -36,19 +33,19 @@ vector<Process>& System::Processes() {
                     LinuxParser::UpTime(pid));
     processes_.push_back(process);
   }
-  std::sort(processes_.begin(), processes_.end(),
-            [](const Process& a, const Process& b) { return a > b; });
+  sort(processes_.begin(), processes_.end(),
+       [](const Process& a, const Process& b) { return a > b; });
   return processes_;
 }
 
 // TODO: Return the system's kernel identifier (string)
-std::string System::Kernel() const { return kernel; }
+string System::Kernel() const { return kernel; }
 
 // TODO: Return the system's memory utilization
 float System::MemoryUtilization() { return LinuxParser::MemoryUtilization(); }
 
 // TODO: Return the operating system name
-std::string System::OperatingSystem() const { return operating_system; }
+string System::OperatingSystem() const { return operating_system; }
 
 // TODO: Return the number of processes actively running on the system
 int System::RunningProcesses() { return LinuxParser::RunningProcesses(); }
